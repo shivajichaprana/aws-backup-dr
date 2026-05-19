@@ -1,0 +1,40 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# DO NOT commit terraform.tfvars — it is gitignored.
+
+primary_region = "us-east-1"
+dr_region      = "us-west-2"
+environment    = "production"
+project_name   = "backup-dr"
+
+# KMS key deletion window (7-30 days)
+kms_deletion_window_in_days = 30
+
+# Vault lock — set to true only after validating retention settings
+# WARNING: Vault lock in compliance mode is IRREVERSIBLE after grace period
+enable_vault_lock             = false
+vault_lock_min_retention_days = 35
+vault_lock_max_retention_days = 365
+changeable_for_days           = 3
+
+# Backup schedule — 05:00 UTC daily
+backup_schedule_cron     = "cron(0 5 * * ? *)"
+backup_window            = "04:00-05:00"
+completion_window_minutes = 120
+
+# Lifecycle settings
+warm_storage_after_days = 90
+delete_after_days       = 365
+dr_delete_after_days    = 90
+
+# Tag-based selection
+backup_tag_key   = "Backup"
+backup_tag_value = "true"
+
+# SNS alerts (leave empty to skip email subscription)
+sns_alert_email = ""
+
+# Additional tags
+tags = {
+  CostCenter = "infrastructure"
+  Owner      = "platform-team"
+}

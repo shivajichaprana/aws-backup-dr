@@ -64,3 +64,30 @@ output "tagging_instructions" {
     critical_backup = "Add tags: ${var.backup_tag_key}=${var.backup_tag_value}, BackupTier=critical"
   }
 }
+
+# ---- Route 53 DNS failover ----
+
+output "dns_failover_enabled" {
+  description = "Whether the Route 53 failover stack is materialised"
+  value       = var.enable_dns_failover
+}
+
+output "failover_record_fqdn" {
+  description = "The DNS name clients resolve (served by primary or DR depending on health)"
+  value       = var.enable_dns_failover ? var.failover_record_name : null
+}
+
+output "primary_health_check_id" {
+  description = "ID of the PRIMARY endpoint Route 53 health check"
+  value       = local.dns_failover_enabled ? aws_route53_health_check.primary[0].id : null
+}
+
+output "secondary_health_check_id" {
+  description = "ID of the SECONDARY/DR endpoint Route 53 health check (null if not monitored)"
+  value       = local.secondary_health_check_enabled ? aws_route53_health_check.secondary[0].id : null
+}
+
+output "dns_failover_alerts_topic_arn" {
+  description = "ARN of the us-east-1 SNS topic that receives DNS-failover alarm notifications"
+  value       = local.dns_failover_enabled ? aws_sns_topic.dns_failover_alerts[0].arn : null
+}

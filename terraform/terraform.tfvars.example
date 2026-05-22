@@ -38,3 +38,39 @@ tags = {
   CostCenter = "infrastructure"
   Owner      = "platform-team"
 }
+
+# -----------------------------------------------------------------------------
+# Route 53 DNS failover (DR)
+# -----------------------------------------------------------------------------
+# Leave enable_dns_failover = false to skip the failover stack entirely.
+# When enabling, all of hosted_zone_id, failover_record_name, primary_alias,
+# secondary_alias and primary_health_check_fqdn are required.
+enable_dns_failover  = false
+hosted_zone_id       = "" # e.g. "Z0123456789ABCDEFGHIJ"
+failover_record_name = "" # e.g. "app.example.com"
+failover_record_type = "A"
+
+# Alias targets (regional ALB/NLB/CloudFront/API GW). zone_id is the
+# AWS-published hosted zone ID for that endpoint type, not your own zone.
+primary_alias = {
+  dns_name = "" # e.g. "primary-alb-123.us-east-1.elb.amazonaws.com"
+  zone_id  = "" # e.g. "Z35SXDOTRQ7X7K" (us-east-1 ALB zone)
+}
+secondary_alias = {
+  dns_name = "" # e.g. "dr-alb-456.us-west-2.elb.amazonaws.com"
+  zone_id  = "" # e.g. "Z1H1FL5HABSF5"  (us-west-2 ALB zone)
+}
+
+# Health-check probe targets and tuning
+primary_health_check_fqdn   = "" # e.g. "primary.example.com"
+secondary_health_check_fqdn = "" # e.g. "dr.example.com" (empty = don't monitor DR)
+health_check_type           = "HTTPS"
+health_check_port           = 443
+health_check_path           = "/health"
+health_check_search_string  = "" # only for *_STR_MATCH types
+health_check_failure_threshold = 3
+health_check_request_interval  = 30
+health_check_regions           = ["us-east-1", "us-west-2", "eu-west-1"]
+
+# Email subscribed to the us-east-1 DNS-failover alarm topic
+health_check_alarm_failover_email = ""

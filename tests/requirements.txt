@@ -1,0 +1,5 @@
+# Test dependencies for the aws-backup-dr Lambda unit tests.
+boto3==1.34.162
+botocore==1.34.162
+pytest==8.3.3
+moto[backup,sns,sts,cloudwatch]==5.0.13

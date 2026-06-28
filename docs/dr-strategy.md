@@ -98,7 +98,7 @@ RTO(data)     = restore-job duration (resource-size dependent)
 ```
 
 Continuous restore testing measures the *data* RTO empirically every week; DR
-game-days (below) measure the *service* RTO.
+DR drills (below) measure the *service* RTO.
 
 ## 6. Vault lock rollout
 
@@ -124,7 +124,7 @@ Vault lock is irreversible once its grace period expires, so it ships **disabled
 |--------|---------|-------|----------|
 | Automated restore test | Weekly (Sun 03:00Z) | Platform | `BackupDR/RestoreTesting` metrics, SNS report |
 | Backup-status report | Weekly (Mon 08:00Z) | Platform | SNS summary, `BackupDR/Reporting` metrics |
-| DR failover game-day | Quarterly | Platform + service owner | Game-day report, RTO measurement |
+| DR failover drill | Quarterly | Platform + service owner | Drill report, RTO measurement |
 | Vault-lock & retention review | Annually | Security + Platform | Reviewed `terraform.tfvars` |
 | Runbook review | After every incident | On-call | Updated runbooks |
 

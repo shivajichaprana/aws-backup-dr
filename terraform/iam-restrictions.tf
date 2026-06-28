@@ -220,7 +220,7 @@ resource "aws_iam_policy" "backup_admin_boundary" {
 }
 
 # ---------------------------------------------------------------------------
-# 2. Backup Admin Role — Day-to-day backup management
+# 2. Backup Admin Role — Routine backup management
 #    Operators / automation pipelines assume this role for routine tasks.
 #    The permission boundary above is enforced at all times.
 # ---------------------------------------------------------------------------

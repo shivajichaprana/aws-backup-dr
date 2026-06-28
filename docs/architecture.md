@@ -137,7 +137,7 @@ policies plus inline grants for S3 backup and cross-region KMS.
 | Principal | Purpose |
 |-----------|---------|
 | Permission boundary (`<prefix>-backup-admin-boundary`) | Denies `DeleteBackupVault`, `DeleteBackupPlan`, `DeleteBackupVaultLockConfiguration`, `DeleteRecoveryPoint`, and unauthenticated `StopBackupJob` regardless of identity policy |
-| Backup-admin role | Day-to-day backup management, with the boundary attached — cannot destroy vault data |
+| Backup-admin role | Routine backup management, with the boundary attached — cannot destroy vault data |
 | Break-glass role | The only principal excluded from the destructive-operation deny; dormant, MFA-gated, time-boxed |
 
 ## Restore-testing workflow

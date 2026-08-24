@@ -242,21 +242,21 @@ resource "aws_backup_global_settings" "this" {
 # ---------------------------------------------------------------------------
 resource "aws_backup_region_settings" "primary" {
   resource_type_opt_in_preference = {
-    Aurora           = true
-    DocumentDB       = true
-    DynamoDB         = true
-    EBS              = true
-    EC2              = true
-    EFS              = true
-    FSx              = true
-    Neptune          = true
-    RDS              = true
-    Redshift         = true
-    S3               = true
+    Aurora     = true
+    DocumentDB = true
+    DynamoDB   = true
+    EBS        = true
+    EC2        = true
+    EFS        = true
+    FSx        = true
+    Neptune    = true
+    RDS        = true
+    Redshift   = true
+    S3         = true
     SAP HANA on AWS  = false
     Storage Gateway  = false
-    Timestream       = false
-    VirtualMachine   = false
+    Timestream     = false
+    VirtualMachine = false
   }
 
   resource_type_management_preference = {

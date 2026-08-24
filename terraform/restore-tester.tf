@@ -279,15 +279,15 @@ resource "aws_lambda_function" "restore_tester" {
 
   environment {
     variables = {
-      BACKUP_VAULT_NAME       = aws_backup_vault.primary.name
-      BACKUP_RESTORE_ROLE_ARN = aws_iam_role.backup.arn
-      RESTORE_TEST_ROLE_ARN   = var.restore_test_role_arn
-      LOOKBACK_DAYS           = tostring(var.restore_test_lookback_days)
-      CW_NAMESPACE            = "BackupDR/RestoreTesting"
-      SNS_TOPIC_ARN           = aws_sns_topic.backup_notifications.arn
-      ENVIRONMENT             = var.environment
+      BACKUP_VAULT_NAME        = aws_backup_vault.primary.name
+      BACKUP_RESTORE_ROLE_ARN  = aws_iam_role.backup.arn
+      RESTORE_TEST_ROLE_ARN    = var.restore_test_role_arn
+      LOOKBACK_DAYS            = tostring(var.restore_test_lookback_days)
+      CW_NAMESPACE             = "BackupDR/RestoreTesting"
+      SNS_TOPIC_ARN            = aws_sns_topic.backup_notifications.arn
+      ENVIRONMENT              = var.environment
       SUPPORTED_RESOURCE_TYPES = local.restore_supported_csv
-      LOG_LEVEL               = "INFO"
+      LOG_LEVEL                = "INFO"
     }
   }
 

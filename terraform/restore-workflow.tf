@@ -58,9 +58,9 @@ data "aws_iam_policy_document" "restore_sfn_policy" {
   count = var.enable_restore_testing ? 1 : 0
 
   statement {
-    sid       = "InvokeWorker"
-    effect    = "Allow"
-    actions   = ["lambda:InvokeFunction"]
+    sid     = "InvokeWorker"
+    effect  = "Allow"
+    actions = ["lambda:InvokeFunction"]
     resources = [
       aws_lambda_function.restore_tester[0].arn,
       "${aws_lambda_function.restore_tester[0].arn}:*",
@@ -236,9 +236,9 @@ locals {
             Next          = "VerifyIntegrity"
           },
           {
-            Variable                  = "$.context.details.poll_count"
-            NumericGreaterThanEquals  = 60
-            Next                      = "TeardownOnFailure"
+            Variable                 = "$.context.details.poll_count"
+            NumericGreaterThanEquals = 60
+            Next                     = "TeardownOnFailure"
           },
         ]
         Default = "WaitForRestore"

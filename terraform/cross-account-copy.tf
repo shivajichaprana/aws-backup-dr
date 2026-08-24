@@ -180,9 +180,9 @@ resource "aws_backup_plan" "cross_account" {
     }
 
     recovery_point_tags = merge(local.common_tags, {
-      BackupTier    = "cross-account"
-      BackupPlan    = "${local.name_prefix}-cross-account"
-      CopyTarget    = "dr-account-${var.dr_account_id}"
+      BackupTier = "cross-account"
+      BackupPlan = "${local.name_prefix}-cross-account"
+      CopyTarget = "dr-account-${var.dr_account_id}"
     })
   }
 

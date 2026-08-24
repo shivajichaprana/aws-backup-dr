@@ -16,12 +16,12 @@
 
 locals {
   # search_string is only valid for *_STR_MATCH check types.
-  is_str_match_check  = can(regex("_STR_MATCH$", var.health_check_type))
-  effective_search    = local.is_str_match_check && var.health_check_search_string != "" ? var.health_check_search_string : null
+  is_str_match_check = can(regex("_STR_MATCH$", var.health_check_type))
+  effective_search   = local.is_str_match_check && var.health_check_search_string != "" ? var.health_check_search_string : null
 
   # TCP checks cannot probe a resource path.
-  is_tcp_check        = var.health_check_type == "TCP"
-  effective_path      = local.is_tcp_check ? null : var.health_check_path
+  is_tcp_check   = var.health_check_type == "TCP"
+  effective_path = local.is_tcp_check ? null : var.health_check_path
 }
 
 # ---------------------------------------------------------------------------

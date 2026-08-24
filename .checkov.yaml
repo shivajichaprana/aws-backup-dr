@@ -1,0 +1,53 @@
+# Checkov configuration for aws-backup-dr.
+#
+# Every suppression below is listed with the reason it does not apply here.
+# Anything not listed is expected to pass. LOW and MEDIUM severity findings are
+# reported but do not fail the build.
+
+framework:
+  - terraform
+directory:
+  - terraform
+quiet: true
+compact: true
+soft-fail-on:
+  - LOW
+  - MEDIUM
+
+skip-check:
+  # --- IAM: this repository's policies are guardrails, not grants ---
+  # aws_iam_policy.backup_admin_boundary is a *permissions boundary*. A boundary
+  # describes the maximum envelope a role may ever operate in and then denies the
+  # destructive subset (vault, plan and recovery-point deletion). Broad Action and
+  # Resource entries are how a boundary is written; narrowing them would narrow the
+  # envelope, not the grant. The same applies to the break-glass role policy, which
+  # exists precisely to be wide and is gated by a separate approval path.
+  - CKV_AWS_111   # write access without constraints
+  - CKV_AWS_289   # permissions management without constraints
+  - CKV_AWS_290   # write access without constraints
+  - CKV_AWS_355   # wildcard resource for restrictable actions
+  - CKV_AWS_356   # wildcard resource for restrictable actions
+
+  # --- Caller-supplied inputs rather than hard-coded values ---
+  # These are module variables so the consumer sets them per environment. Checkov
+  # reads the unresolved default and reports it as missing.
+  - CKV_AWS_158   # log group CMK is var.log_kms_key_arn
+  - CKV_AWS_338   # log retention is var.log_retention_days
+
+  # --- Lambda: deliberate design decisions ---
+  # The reporter and restore-tester functions talk only to AWS control-plane APIs
+  # (Backup, CloudWatch, SNS). Placing them in a VPC would require NAT egress to
+  # reach those same public endpoints and buys nothing.
+  - CKV_AWS_117   # Lambda not in a VPC
+  # Their environment variables hold an SNS topic ARN, a metric namespace, a
+  # window size and a log level. No secrets, so the AWS-managed key is adequate.
+  - CKV_AWS_173   # Lambda env vars not encrypted with a CMK
+  # Code signing requires an organisation-level signing profile and trust policy,
+  # which is outside the scope of a backup module.
+  - CKV_AWS_272   # Lambda code-signing not configured
+
+  # --- Route 53 failover ---
+  # Both failover records are alias records pointing at var.primary_alias /
+  # var.secondary_alias, supplied by the caller. Checkov cannot resolve a target
+  # that lives outside this configuration, so it reports the record as unattached.
+  - CKV2_AWS_23   # A record has no attached resource

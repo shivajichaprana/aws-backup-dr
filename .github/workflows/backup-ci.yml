@@ -53,7 +53,7 @@ jobs:
         run: terraform validate -no-color
 
       - name: Cache tflint plugins
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        uses: actions/cache@v4 # GitHub auto-fails cache actions below v4.2.0; track v4
         with:
           path: ~/.tflint.d/plugins
           key: tflint-${{ runner.os }}-${{ env.TFLINT_VERSION }}-${{ hashFiles('terraform/.tflint.hcl') }}
@@ -87,14 +87,10 @@ jobs:
       - name: Install Checkov
         run: pip install "checkov==${CHECKOV_VERSION}"
 
+      # Scan settings, and the reason for every suppression, live in
+      # .checkov.yaml at the repository root so they are reviewable in one place.
       - name: Run Checkov on Terraform
-        run: |
-          checkov \
-            --directory terraform \
-            --framework terraform \
-            --quiet \
-            --compact \
-            --soft-fail-on LOW
+        run: checkov --config-file .checkov.yaml
 
   # ---------------------------------------------------------------------------
   # Python: unit tests for the Lambda functions

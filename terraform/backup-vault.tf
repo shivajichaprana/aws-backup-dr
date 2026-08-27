@@ -15,7 +15,7 @@ resource "aws_kms_key" "backup_primary" {
   description             = "CMK for AWS Backup vault encryption - ${local.name_prefix} primary"
   deletion_window_in_days = var.kms_deletion_window_in_days
   enable_key_rotation     = true
-  multi_region            = false  # DR region gets its own CMK
+  multi_region            = false # DR region gets its own CMK
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -140,7 +140,7 @@ resource "aws_backup_vault" "primary" {
 
   # Prevent accidental destruction of the vault while recovery points exist
   lifecycle {
-    prevent_destroy = false  # Set to true in production
+    prevent_destroy = false # Set to true in production
   }
 }
 
@@ -174,7 +174,7 @@ resource "aws_backup_vault" "dr" {
   })
 
   lifecycle {
-    prevent_destroy = false  # Set to true in production
+    prevent_destroy = false # Set to true in production
   }
 }
 

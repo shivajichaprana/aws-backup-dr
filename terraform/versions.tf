@@ -6,6 +6,14 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.0.0"
     }
+
+    # `data "archive_file"` packages the reporter and restore-tester Lambdas in
+    # reporter.tf and restore-tester.tf. Undeclared, it floated to whatever
+    # version `terraform init` happened to resolve.
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.4"
+    }
   }
 
   # Configure backend for your environment:

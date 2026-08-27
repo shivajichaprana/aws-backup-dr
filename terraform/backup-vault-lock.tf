@@ -36,21 +36,17 @@
 # ---------------------------------------------------------------------------
 # Variables — Vault Lock & Policy Configuration
 # ---------------------------------------------------------------------------
-variable "vault_lock_grace_period_reminder_days" {
-  description = "Number of days before the vault lock grace period expires to send a reminder SNS alert"
-  type        = number
-  default     = 1
-
-  validation {
-    condition     = var.vault_lock_grace_period_reminder_days >= 1
-    error_message = "vault_lock_grace_period_reminder_days must be at least 1."
-  }
-}
+# NOTE: `vault_lock_grace_period_reminder_days` was declared here, with a
+# description promising "a reminder SNS alert" before the vault lock grace period
+# expires. No such alert was ever implemented and nothing read the variable, so it
+# advertised a safety feature this module does not have. Removed rather than left
+# in place. If the reminder is wanted, it needs a CloudWatch Events rule and an
+# SNS publish, and the variable comes back with it.
 
 variable "cloudtrail_log_group_name" {
   description = "Name of the CloudWatch log group receiving CloudTrail management events (for vault-tamper alarms)"
   type        = string
-  default     = ""  # Leave empty to skip CloudTrail-based metric filters
+  default     = "" # Leave empty to skip CloudTrail-based metric filters
 }
 
 # ---------------------------------------------------------------------------

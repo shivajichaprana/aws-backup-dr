@@ -92,11 +92,6 @@ variable "cross_account_copy_cold_storage_after_days" {
 locals {
   cross_account_vault_arn = var.enable_cross_account_copy ? "arn:${local.partition}:backup:${var.primary_region}:${var.dr_account_id}:backup-vault:${var.cross_account_vault_name}" : ""
 
-  cross_account_kms_key_arn_resolved = (
-    var.enable_cross_account_copy && var.cross_account_kms_key_arn != ""
-    ? var.cross_account_kms_key_arn
-    : null
-  )
 }
 
 # ---------------------------------------------------------------------------

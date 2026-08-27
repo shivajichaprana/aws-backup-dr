@@ -21,7 +21,9 @@ concurrency:
 
 env:
   TF_VERSION: "1.9.8"
-  TFLINT_VERSION: "v0.53.0"
+  # Must be >= v0.54.0: terraform/.tflint.hcl uses `call_module_type`, which
+  # replaced the `module` attribute in v0.54.0. On v0.53.0 the config fails to load.
+  TFLINT_VERSION: "v0.64.0"
   CHECKOV_VERSION: "3.2.257"
 
 jobs:

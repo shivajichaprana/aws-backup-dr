@@ -63,13 +63,7 @@ variable "vault_lock_max_retention_days" {
 variable "backup_schedule_cron" {
   description = "Cron expression for the daily backup schedule (UTC)"
   type        = string
-  default     = "cron(0 5 * * ? *)"  # 05:00 UTC daily
-}
-
-variable "backup_window" {
-  description = "Preferred backup window (must not overlap with maintenance windows)"
-  type        = string
-  default     = "04:00-05:00"
+  default     = "cron(0 5 * * ? *)" # 05:00 UTC daily
 }
 
 variable "completion_window_minutes" {
@@ -119,7 +113,7 @@ variable "sns_alert_email" {
 variable "enable_vault_lock" {
   description = "Whether to enable compliance-mode vault lock (irreversible after 72h grace period)"
   type        = bool
-  default     = false  # Set true in production after validating retention settings
+  default     = false # Set true in production after validating retention settings
 }
 
 variable "changeable_for_days" {

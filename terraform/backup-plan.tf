@@ -107,7 +107,7 @@ resource "aws_backup_plan" "standard" {
     rule_name         = "daily-backup"
     target_vault_name = aws_backup_vault.primary.name
     schedule          = var.backup_schedule_cron
-    start_window      = 60   # minutes before schedule to start
+    start_window      = 60 # minutes before schedule to start
     completion_window = var.completion_window_minutes
 
     lifecycle {
@@ -135,19 +135,19 @@ resource "aws_backup_plan" "standard" {
   rule {
     rule_name         = "weekly-full-backup"
     target_vault_name = aws_backup_vault.primary.name
-    schedule          = "cron(0 2 ? * SUN *)"  # 02:00 UTC every Sunday
+    schedule          = "cron(0 2 ? * SUN *)" # 02:00 UTC every Sunday
     start_window      = 60
-    completion_window = 240  # Allow 4 hours for weekly full
+    completion_window = 240 # Allow 4 hours for weekly full
 
     lifecycle {
-      delete_after = 365  # Keep weekly snapshots for 1 year
+      delete_after = 365 # Keep weekly snapshots for 1 year
     }
 
     copy_action {
       destination_vault_arn = aws_backup_vault.dr.arn
 
       lifecycle {
-        delete_after = 180  # Keep DR copies of weeklies for 6 months
+        delete_after = 180 # Keep DR copies of weeklies for 6 months
       }
     }
 
@@ -172,7 +172,7 @@ resource "aws_backup_plan" "critical" {
   rule {
     rule_name         = "hourly-backup-business-hours"
     target_vault_name = aws_backup_vault.primary.name
-    schedule          = "cron(0 8-20 * * ? *)"  # Every hour 08-20 UTC
+    schedule          = "cron(0 8-20 * * ? *)" # Every hour 08-20 UTC
     start_window      = 30
     completion_window = 60
 
@@ -185,7 +185,7 @@ resource "aws_backup_plan" "critical" {
       destination_vault_arn = aws_backup_vault.dr.arn
 
       lifecycle {
-        delete_after = 30  # Keep hourly DR copies for 30 days
+        delete_after = 30 # Keep hourly DR copies for 30 days
       }
     }
 
@@ -241,22 +241,24 @@ resource "aws_backup_global_settings" "this" {
 # Region Settings — Enable S3 and EFS backup features
 # ---------------------------------------------------------------------------
 resource "aws_backup_region_settings" "primary" {
+  # AWS names two of these resource types with spaces in them, so those keys
+  # must be quoted string literals. Unquoted, they are not valid HCL at all.
   resource_type_opt_in_preference = {
-    Aurora     = true
-    DocumentDB = true
-    DynamoDB   = true
-    EBS        = true
-    EC2        = true
-    EFS        = true
-    FSx        = true
-    Neptune    = true
-    RDS        = true
-    Redshift   = true
-    S3         = true
-    SAP HANA on AWS  = false
-    Storage Gateway  = false
-    Timestream     = false
-    VirtualMachine = false
+    Aurora            = true
+    DocumentDB        = true
+    DynamoDB          = true
+    EBS               = true
+    EC2               = true
+    EFS               = true
+    FSx               = true
+    Neptune           = true
+    RDS               = true
+    Redshift          = true
+    S3                = true
+    "SAP HANA on AWS" = false
+    "Storage Gateway" = false
+    Timestream        = false
+    VirtualMachine    = false
   }
 
   resource_type_management_preference = {

@@ -119,7 +119,7 @@ resource "aws_cloudwatch_metric_alarm" "backup_job_failures" {
   evaluation_periods  = 1
   metric_name         = "NumberOfBackupJobsFailed"
   namespace           = "AWS/Backup"
-  period              = 86400  # 24 hours
+  period              = 86400 # 24 hours
   statistic           = "Sum"
   threshold           = 1
   alarm_description   = "One or more AWS Backup jobs failed in the last 24 hours"
@@ -142,7 +142,7 @@ resource "aws_cloudwatch_metric_alarm" "backup_jobs_completed" {
   evaluation_periods  = 1
   metric_name         = "NumberOfBackupJobsCompleted"
   namespace           = "AWS/Backup"
-  period              = 86400  # 24 hours
+  period              = 86400 # 24 hours
   statistic           = "Sum"
   threshold           = 1
   alarm_description   = "No AWS Backup jobs completed successfully in the last 24 hours"

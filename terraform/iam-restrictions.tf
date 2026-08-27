@@ -30,14 +30,6 @@
 # =============================================================================
 
 # ---------------------------------------------------------------------------
-# Local: Role names used in policy conditions
-# ---------------------------------------------------------------------------
-locals {
-  break_glass_role_name  = "${local.name_prefix}-backup-break-glass"
-  backup_admin_role_name = "${local.name_prefix}-backup-admin"
-}
-
-# ---------------------------------------------------------------------------
 # 1. IAM Managed Policy: Permission Boundary
 #    Attach this as PermissionsBoundary on all backup operator roles.
 # ---------------------------------------------------------------------------
@@ -334,10 +326,10 @@ resource "aws_iam_role_policy" "backup_break_glass_policy" {
         Sid    = "BackupEmergencyOperations"
         Effect = "Allow"
         Action = [
-          "backup:DeleteRecoveryPoint",    # Remove stale test recovery points
-          "backup:StopBackupJob",           # Cancel runaway jobs
-          "backup:DeleteBackupVault",       # Last-resort vault cleanup (empty only)
-          "backup:DeleteBackupPlan",        # Remove orphaned plans
+          "backup:DeleteRecoveryPoint", # Remove stale test recovery points
+          "backup:StopBackupJob",       # Cancel runaway jobs
+          "backup:DeleteBackupVault",   # Last-resort vault cleanup (empty only)
+          "backup:DeleteBackupPlan",    # Remove orphaned plans
           "backup:DeleteBackupSelection",
         ]
         Resource = "*"
